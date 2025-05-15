@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -25,10 +24,10 @@ const RoommateFinder = () => {
   });
 
   const [filters, setFilters] = useState({
-    location: "",
+    location: "all", // Changed from empty string to "all"
     minBudget: 500,
     maxBudget: 2000,
-    gender: ""
+    gender: "any" // Changed from empty string to "any"
   });
   
   const [roommates, setRoommates] = useState<Array<User & RoommatePreference>>([]);
@@ -79,9 +78,9 @@ const RoommateFinder = () => {
       // Skip filtering if no roommate preferences
       if (!roommate.budget || !roommate.location) return false;
       
-      const locationMatch = !currentFilters.location || roommate.location.toLowerCase().includes(currentFilters.location.toLowerCase());
+      const locationMatch = !currentFilters.location || currentFilters.location === "all" || roommate.location.toLowerCase().includes(currentFilters.location.toLowerCase());
       const budgetMatch = roommate.budget >= currentFilters.minBudget && roommate.budget <= currentFilters.maxBudget;
-      const genderMatch = !currentFilters.gender || roommate.gender === currentFilters.gender;
+      const genderMatch = !currentFilters.gender || currentFilters.gender === "any" || roommate.gender === currentFilters.gender;
       
       return locationMatch && budgetMatch && genderMatch;
     });
@@ -334,7 +333,7 @@ const RoommateFinder = () => {
                       <SelectValue placeholder="Any location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Any location</SelectItem>
+                      <SelectItem value="all">Any location</SelectItem>
                       <SelectItem value="Downtown">Downtown</SelectItem>
                       <SelectItem value="Suburbs">Suburbs</SelectItem>
                       <SelectItem value="University Area">University Area</SelectItem>
@@ -369,7 +368,7 @@ const RoommateFinder = () => {
                       <SelectValue placeholder="Any gender" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Any gender</SelectItem>
+                      <SelectItem value="any">Any gender</SelectItem>
                       <SelectItem value="Male">Male</SelectItem>
                       <SelectItem value="Female">Female</SelectItem>
                       <SelectItem value="Non-binary">Non-binary</SelectItem>

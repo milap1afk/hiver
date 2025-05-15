@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -37,8 +36,8 @@ const AutoSharing = () => {
   const [filters, setFilters] = useState({
     startLocation: "",
     destination: "",
-    vehicleType: "",
-    day: ""
+    vehicleType: "all", // Changed from empty string to "all"
+    day: "any" // Changed from empty string to "any"
   });
   
   // Load shares from localStorage or use mock data on component mount
@@ -88,8 +87,8 @@ const AutoSharing = () => {
     setFilters({
       startLocation: "",
       destination: "",
-      vehicleType: "",
-      day: ""
+      vehicleType: "all", // Changed from empty string to "all"
+      day: "any" // Changed from empty string to "any"
     });
   };
   
@@ -144,12 +143,12 @@ const AutoSharing = () => {
     }
     
     // Apply vehicle type filter
-    if (filters.vehicleType && share.vehicleType !== filters.vehicleType) {
+    if (filters.vehicleType && filters.vehicleType !== "all" && share.vehicleType !== filters.vehicleType) {
       return false;
     }
     
     // Apply day filter
-    if (filters.day && !share.days.includes(filters.day)) {
+    if (filters.day && filters.day !== "any" && !share.days.includes(filters.day)) {
       return false;
     }
     
@@ -352,7 +351,7 @@ const AutoSharing = () => {
                     <SelectValue placeholder="Any vehicle" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any vehicle</SelectItem>
+                    <SelectItem value="all">Any vehicle</SelectItem>
                     {vehicleTypes.map(type => (
                       <SelectItem key={type} value={type}>{type}</SelectItem>
                     ))}
@@ -370,7 +369,7 @@ const AutoSharing = () => {
                     <SelectValue placeholder="Any day" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any day</SelectItem>
+                    <SelectItem value="any">Any day</SelectItem>
                     {weekdays.map(day => (
                       <SelectItem key={day} value={day}>{day}</SelectItem>
                     ))}
