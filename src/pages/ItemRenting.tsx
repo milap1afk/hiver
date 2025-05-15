@@ -32,10 +32,10 @@ const ItemRenting = () => {
   });
   
   const [filters, setFilters] = useState({
-    category: "",
+    category: "all", // Changed from empty string to "all"
     minPrice: 0,
     maxPrice: 100,
-    condition: "",
+    condition: "any", // Changed from empty string to "any"
     available: true
   });
   
@@ -86,10 +86,10 @@ const ItemRenting = () => {
   
   const resetFilters = () => {
     setFilters({
-      category: "",
+      category: "all", // Changed from empty string to "all"
       minPrice: 0,
       maxPrice: 100,
-      condition: "",
+      condition: "any", // Changed from empty string to "any"
       available: true
     });
     setSearchTerm("");
@@ -154,7 +154,7 @@ const ItemRenting = () => {
     }
     
     // Apply category filter
-    if (filters.category && item.category !== filters.category) {
+    if (filters.category && filters.category !== "all" && item.category !== filters.category) {
       return false;
     }
     
@@ -164,7 +164,7 @@ const ItemRenting = () => {
     }
     
     // Apply condition filter
-    if (filters.condition && item.condition !== filters.condition) {
+    if (filters.condition && filters.condition !== "any" && item.condition !== filters.condition) {
       return false;
     }
     
@@ -353,7 +353,7 @@ const ItemRenting = () => {
                     <SelectValue placeholder="All categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All categories</SelectItem>
+                    <SelectItem value="all">All categories</SelectItem>
                     {categories.map(category => (
                       <SelectItem key={category} value={category}>{category}</SelectItem>
                     ))}
@@ -388,7 +388,7 @@ const ItemRenting = () => {
                     <SelectValue placeholder="Any condition" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any condition</SelectItem>
+                    <SelectItem value="any">Any condition</SelectItem>
                     {conditions.map(condition => (
                       <SelectItem key={condition} value={condition}>{condition}</SelectItem>
                     ))}
