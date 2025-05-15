@@ -19,7 +19,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!user) {
-    // Save the current location they were trying to access
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
