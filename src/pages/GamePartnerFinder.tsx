@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -29,9 +28,9 @@ const GamePartnerFinder = () => {
   });
   
   const [filters, setFilters] = useState({
-    game: "",
-    skillLevel: "",
-    availability: ""
+    game: "all", // Changed from empty string to "all"
+    skillLevel: "any", // Changed from empty string to "any"
+    availability: "any" // Changed from empty string to "any"
   });
   
   const [newGame, setNewGame] = useState("");
@@ -110,9 +109,9 @@ const GamePartnerFinder = () => {
   
   const resetFilters = () => {
     setFilters({
-      game: "",
-      skillLevel: "",
-      availability: ""
+      game: "all", // Changed from empty string to "all"
+      skillLevel: "any", // Changed from empty string to "any"
+      availability: "any" // Changed from empty string to "any"
     });
     setSearchTerm("");
   };
@@ -168,13 +167,13 @@ const GamePartnerFinder = () => {
     }
     
     // Apply game filter
-    if (filters.game && !partner.games.some(game => game.toLowerCase() === filters.game.toLowerCase())) {
+    if (filters.game && filters.game !== "all" && !partner.games.some(game => game.toLowerCase() === filters.game.toLowerCase())) {
       return false;
     }
     
     // Apply skill level filter
-    if (filters.skillLevel) {
-      const gameIndex = filters.game ? partner.games.findIndex(g => g.toLowerCase() === filters.game.toLowerCase()) : -1;
+    if (filters.skillLevel && filters.skillLevel !== "any") {
+      const gameIndex = filters.game !== "all" ? partner.games.findIndex(g => g.toLowerCase() === filters.game.toLowerCase()) : -1;
       
       if (gameIndex === -1) {
         // If no specific game is selected, check if any game has the selected skill level
@@ -190,7 +189,7 @@ const GamePartnerFinder = () => {
     }
     
     // Apply availability filter
-    if (filters.availability && !partner.availability.includes(filters.availability)) {
+    if (filters.availability && filters.availability !== "any" && !partner.availability.includes(filters.availability)) {
       return false;
     }
     
@@ -379,7 +378,7 @@ const GamePartnerFinder = () => {
                     <SelectValue placeholder="Any game" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any game</SelectItem>
+                    <SelectItem value="all">Any game</SelectItem>
                     {popularGames.map(game => (
                       <SelectItem key={game} value={game}>{game}</SelectItem>
                     ))}
@@ -397,7 +396,7 @@ const GamePartnerFinder = () => {
                     <SelectValue placeholder="Any skill level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any skill level</SelectItem>
+                    <SelectItem value="any">Any skill level</SelectItem>
                     {skillLevels.map(level => (
                       <SelectItem key={level} value={level}>{level}</SelectItem>
                     ))}
@@ -415,7 +414,7 @@ const GamePartnerFinder = () => {
                     <SelectValue placeholder="Any availability" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any availability</SelectItem>
+                    <SelectItem value="any">Any availability</SelectItem>
                     {availabilityOptions.map(option => (
                       <SelectItem key={option} value={option}>{option}</SelectItem>
                     ))}
