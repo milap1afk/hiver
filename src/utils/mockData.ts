@@ -58,7 +58,7 @@ export const mockRoommatePreferences: RoommatePreference[] = [
     budget: 1200,
     location: 'Downtown',
     prefers: ['Non-smoker', 'Pet-friendly', 'Early riser'],
-    about: 'I'm a software developer who works remotely. I'm clean and quiet. I enjoy cooking and occasional game nights.'
+    about: "I'm a software developer who works remotely. I'm clean and quiet. I enjoy cooking and occasional game nights."
   },
   {
     id: '2',
@@ -66,7 +66,7 @@ export const mockRoommatePreferences: RoommatePreference[] = [
     budget: 1000,
     location: 'University Area',
     prefers: ['Student', 'Quiet', 'Non-smoker'],
-    about: 'Grad student looking for a quiet place to study. I'm organized and tidy. I enjoy yoga and meditation.'
+    about: "Grad student looking for a quiet place to study. I'm organized and tidy. I enjoy yoga and meditation."
   },
   {
     id: '3',
@@ -74,7 +74,7 @@ export const mockRoommatePreferences: RoommatePreference[] = [
     budget: 1500,
     location: 'Riverside',
     prefers: ['Professional', 'Social', 'Pet-friendly'],
-    about: 'Marketing executive who loves to socialize. I have a small dog named Max. I'm looking for someone who enjoys occasional dinner parties.'
+    about: "Marketing executive who loves to socialize. I have a small dog named Max. I'm looking for someone who enjoys occasional dinner parties."
   },
   {
     id: '4',
@@ -82,7 +82,7 @@ export const mockRoommatePreferences: RoommatePreference[] = [
     budget: 900,
     location: 'Suburbs',
     prefers: ['Non-smoker', 'Clean', 'Quiet'],
-    about: 'Freelance designer who needs a peaceful environment. I keep to myself most of the time but am friendly. I cook daily and keep common areas clean.'
+    about: "Freelance designer who needs a peaceful environment. I keep to myself most of the time but am friendly. I cook daily and keep common areas clean."
   },
   {
     id: '5',
@@ -90,7 +90,7 @@ export const mockRoommatePreferences: RoommatePreference[] = [
     budget: 1300,
     location: 'Downtown',
     prefers: ['Professional', 'Social', 'Night owl'],
-    about: 'Bartender with late hours. Looking for someone who doesn't mind my schedule. I'm clean, fun, and respectful of shared spaces.'
+    about: "Bartender with late hours. Looking for someone who doesn't mind my schedule. I'm clean, fun, and respectful of shared spaces."
   }
 ];
 
