@@ -8,6 +8,7 @@ import { AuthProvider } from "./components/AuthProvider";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Settings from "./pages/Settings";
 import RoommateFinder from "./pages/RoommateFinder";
 import CommonCart from "./pages/CommonCart";
 import ItemRenting from "./pages/ItemRenting";
@@ -31,6 +32,7 @@ const App = () => (
             <Route element={<ProtectedRoute />}>
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="/roommate-finder" element={<RoommateFinder />} />
                 <Route path="/common-cart" element={<CommonCart />} />
                 <Route path="/item-renting" element={<ItemRenting />} />

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut } from "lucide-react";
+import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "./AuthProvider";
@@ -36,6 +36,7 @@ const Layout = () => {
     { name: "Item Renting", path: "/item-renting", icon: <Package className="w-5 h-5 mr-2" /> },
     { name: "Auto Sharing", path: "/auto-sharing", icon: <Car className="w-5 h-5 mr-2" /> },
     { name: "Game Partner Finder", path: "/game-partner", icon: <Gamepad2 className="w-5 h-5 mr-2" /> },
+    { name: "Settings", path: "/settings", icon: <Settings className="w-5 h-5 mr-2" /> },
   ];
 
   return (
