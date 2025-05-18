@@ -59,7 +59,7 @@ const Settings = () => {
         .update({
           username,
           avatar_url: avatarUrl,
-          updated_at: new Date(),
+          updated_at: new Date().toISOString(), // Convert Date object to ISO string
         })
         .eq("id", user.id);
         
