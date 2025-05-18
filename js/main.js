@@ -56,6 +56,7 @@ const STORAGE_KEYS = {
   RENT_ITEMS: 'hive_rent_items',
   AUTO_SHARES: 'hive_auto_shares',
   GAME_PARTNERS: 'hive_game_partners',
+  GAME_PROFILE: 'hive_game_profile',
   USER_PROFILE: 'hive_user_profile'
 };
 
