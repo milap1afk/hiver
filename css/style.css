@@ -1,0 +1,351 @@
+
+:root {
+  /* Light mode colors (not active by default) */
+  --light-background: #f8f9fa;
+  --light-foreground: #333;
+  --light-card: #fff;
+  --light-card-foreground: #333;
+  --light-border: #e2e8f0;
+  --light-primary: #3b82f6;
+  --light-primary-foreground: #fff;
+  --light-secondary: #f1f5f9;
+  --light-secondary-foreground: #334155;
+  --light-accent: #eef2ff;
+  --light-accent-foreground: #4338ca;
+  --light-muted: #f1f5f9;
+  --light-muted-foreground: #64748b;
+  
+  /* Dark mode colors (active by default) */
+  --dark-background: #1a1f2c;
+  --dark-foreground: #e2e8f0;
+  --dark-card: #222836;
+  --dark-card-foreground: #e2e8f0;
+  --dark-border: #334155;
+  --dark-primary: #3b82f6;
+  --dark-primary-foreground: #fff;
+  --dark-secondary: #1e293b;
+  --dark-secondary-foreground: #f8fafc;
+  --dark-accent: #312e81;
+  --dark-accent-foreground: #e0e7ff;
+  --dark-muted: #1e293b;
+  --dark-muted-foreground: #94a3b8;
+  
+  /* Default to dark mode */
+  --background: var(--dark-background);
+  --foreground: var(--dark-foreground);
+  --card: var(--dark-card);
+  --card-foreground: var(--dark-card-foreground);
+  --border: var(--dark-border);
+  --primary: var(--dark-primary);
+  --primary-foreground: var(--dark-primary-foreground);
+  --secondary: var(--dark-secondary);
+  --secondary-foreground: var(--dark-secondary-foreground);
+  --accent: var(--dark-accent);
+  --accent-foreground: var(--dark-accent-foreground);
+  --muted: var(--dark-muted);
+  --muted-foreground: var(--dark-muted-foreground);
+  
+  /* Spacing and sizes */
+  --radius: 0.5rem;
+  --container-width: 1200px;
+  --header-height: 4rem;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-mode {
+  --background: var(--light-background);
+  --foreground: var(--light-foreground);
+  --card: var(--light-card);
+  --card-foreground: var(--light-card-foreground);
+  --border: var(--light-border);
+  --primary: var(--light-primary);
+  --primary-foreground: var(--light-primary-foreground);
+  --secondary: var(--light-secondary);
+  --secondary-foreground: var(--light-secondary-foreground);
+  --accent: var(--light-accent);
+  --accent-foreground: var(--light-accent-foreground);
+  --muted: var(--light-muted);
+  --muted-foreground: var(--light-muted-foreground);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--accent-foreground);
+}
+
+/* Button styles */
+.btn {
+  display: inline-block;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-2px);
+}
+
+.btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Header/navbar */
+header {
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--muted-foreground);
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link.active, .nav-link:hover {
+  color: var(--foreground);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  transition: background-color 0.3s;
+}
+
+.theme-toggle:hover {
+  background-color: var(--secondary);
+}
+
+/* Main content */
+main {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.hero h1 {
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--muted-foreground);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Features section */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent);
+  border-radius: 50%;
+}
+
+.feature-card h2 {
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  color: var(--muted-foreground);
+  margin-bottom: 1.5rem;
+}
+
+.feature-card .btn {
+  margin-top: auto;
+}
+
+/* Feature card variations */
+.feature-card.roommate .feature-icon {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.feature-card.cart .feature-icon {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.feature-card.renting .feature-icon {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.feature-card.auto .feature-icon {
+  background-color: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+.feature-card.gaming .feature-icon {
+  background-color: rgba(236, 72, 153, 0.2);
+  color: #ec4899;
+}
+
+/* Footer */
+footer {
+  background-color: var(--card);
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+}

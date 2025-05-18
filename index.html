@@ -1,26 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hive-community-hub</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIVE - Community Hub</title>
+  <meta name="description" content="Your Community Hub for Sharing, Connecting, and Collaborating">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">HIVE</a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+          <a href="pages/roommate-finder.html" class="nav-link"><i class="fas fa-user-friends"></i> Roommate Finder</a>
+          <a href="pages/common-cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Common Cart</a>
+          <a href="pages/item-renting.html" class="nav-link"><i class="fas fa-box"></i> Item Renting</a>
+          <a href="pages/auto-sharing.html" class="nav-link"><i class="fas fa-car"></i> Auto Sharing</a>
+          <a href="pages/game-partner.html" class="nav-link"><i class="fas fa-gamepad"></i> Game Partner</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
 
-    <meta property="og:title" content="hive-community-hub" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <main>
+    <div class="container">
+      <section class="hero">
+        <h1>Welcome to HIVE</h1>
+        <p>Your Community Hub for Sharing, Connecting, and Collaborating</p>
+      </section>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+      <section class="features">
+        <div class="feature-card roommate">
+          <div class="feature-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <h2>Roommate Finder</h2>
+          <p>Find your perfect roommate based on lifestyle, budget, and interests.</p>
+          <a href="pages/roommate-finder.html" class="btn">Open Roommate Finder</a>
+        </div>
+        
+        <div class="feature-card cart">
+          <div class="feature-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <h2>Common Cart</h2>
+          <p>Create and manage shared shopping lists with your roommates.</p>
+          <a href="pages/common-cart.html" class="btn">Open Common Cart</a>
+        </div>
+        
+        <div class="feature-card renting">
+          <div class="feature-icon">
+            <i class="fas fa-box"></i>
+          </div>
+          <h2>Item Renting</h2>
+          <p>Borrow and lend items within your community.</p>
+          <a href="pages/item-renting.html" class="btn">Open Item Renting</a>
+        </div>
+        
+        <div class="feature-card auto">
+          <div class="feature-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <h2>Auto Sharing</h2>
+          <p>Coordinate carpools and bike sharing with neighbors.</p>
+          <a href="pages/auto-sharing.html" class="btn">Open Auto Sharing</a>
+        </div>
+        
+        <div class="feature-card gaming">
+          <div class="feature-icon">
+            <i class="fas fa-gamepad"></i>
+          </div>
+          <h2>Game Partner Finder</h2>
+          <p>Find people to play your favorite games with.</p>
+          <a href="pages/game-partner.html" class="btn">Open Game Partner Finder</a>
+        </div>
+      </section>
+    </div>
+  </main>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 HIVE Community Hub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>

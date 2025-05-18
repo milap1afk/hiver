@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roommate Finder - HIVE</title>
+  <meta name="description" content="Find your perfect roommate based on lifestyle, budget, and interests">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="../index.html" class="logo">HIVE</a>
+        <div class="nav-links">
+          <a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+          <a href="roommate-finder.html" class="nav-link active"><i class="fas fa-user-friends"></i> Roommate Finder</a>
+          <a href="common-cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Common Cart</a>
+          <a href="item-renting.html" class="nav-link"><i class="fas fa-box"></i> Item Renting</a>
+          <a href="auto-sharing.html" class="nav-link"><i class="fas fa-car"></i> Auto Sharing</a>
+          <a href="game-partner.html" class="nav-link"><i class="fas fa-gamepad"></i> Game Partner</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="page-header">
+        <h1>Roommate Finder</h1>
+        <p>Find your perfect roommate based on location, budget, and interests</p>
+      </section>
+
+      <div class="roommate-container">
+        <div class="sidebar">
+          <div class="card" id="profile-form-card">
+            <div class="card-header">
+              <h2 class="card-title">Your Information</h2>
+              <p class="card-description">Tell us about yourself to find compatible roommates</p>
+            </div>
+            <div class="card-content">
+              <form id="roommate-form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" class="input" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="age">Age</label>
+                  <input type="number" id="age" class="input" min="18" max="100" value="25" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select id="gender" class="select" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-binary">Non-binary</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="budget">Budget ($/month)</label>
+                  <input type="number" id="budget" class="input" min="0" step="50" value="1000" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="location">Preferred Location</label>
+                  <select id="location" class="select" required>
+                    <option value="" disabled selected>Select location</option>
+                    <option value="Downtown">Downtown</option>
+                    <option value="Suburbs">Suburbs</option>
+                    <option value="University Area">University Area</option>
+                    <option value="Riverside">Riverside</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="interests">Interests (comma-separated)</label>
+                  <input type="text" id="interests" class="input" placeholder="Reading, Cooking, Hiking..." required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="about">About You</label>
+                  <textarea id="about" class="textarea" placeholder="Tell potential roommates about yourself" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Find Matches</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card" id="profile-view-card" style="display: none;">
+            <div class="card-header">
+              <h2 class="card-title">Your Profile</h2>
+              <p class="card-description">Your roommate preferences</p>
+            </div>
+            <div class="card-content" id="profile-details">
+              <!-- Profile details will be inserted here by JavaScript -->
+            </div>
+            <div class="card-footer">
+              <button id="edit-profile-btn" class="btn btn-secondary">Edit Profile</button>
+            </div>
+          </div>
+
+          <div class="card filter-card" id="filter-card" style="display: none;">
+            <div class="card-header">
+              <h2 class="card-title">Filter Matches</h2>
+            </div>
+            <div class="card-content">
+              <div class="form-group">
+                <label for="filter-location">Location</label>
+                <select id="filter-location" class="select">
+                  <option value="all">Any location</option>
+                  <option value="Downtown">Downtown</option>
+                  <option value="Suburbs">Suburbs</option>
+                  <option value="University Area">University Area</option>
+                  <option value="Riverside">Riverside</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label>Budget Range</label>
+                <div class="range-slider">
+                  <div>
+                    <span id="min-budget">$500</span> - <span id="max-budget">$2000</span>
+                  </div>
+                  <input type="range" id="budget-min" min="500" max="2000" step="100" value="500" class="slider">
+                  <input type="range" id="budget-max" min="500" max="2000" step="100" value="2000" class="slider">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="filter-gender">Gender</label>
+                <select id="filter-gender" class="select">
+                  <option value="any">Any gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Non-binary">Non-binary</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content">
+          <div id="matches-container">
+            <div class="empty-state">
+              <i class="fas fa-user-friends empty-icon"></i>
+              <h2>Fill out your profile</h2>
+              <p>Complete your profile information to find compatible roommates based on location, budget, and shared interests.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 HIVE Community Hub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/roommate-finder.js"></script>
+</body>
+</html>
