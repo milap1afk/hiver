@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       age: 27,
       gender: 'Female',
       avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-      about: 'Artist and part-time barista. I'm creative, respectful of space, and love having plants around.'
+      about: 'Artist and part-time barista. I\'m creative, respectful of space, and love having plants around.'
     },
     {
       id: '5',
