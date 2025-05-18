@@ -4,7 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./components/AuthProvider";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
 import RoommateFinder from "./pages/RoommateFinder";
 import CommonCart from "./pages/CommonCart";
 import ItemRenting from "./pages/ItemRenting";
@@ -17,24 +20,29 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/roommate-finder" element={<RoommateFinder />} />
-            <Route path="/common-cart" element={<CommonCart />} />
-            <Route path="/item-renting" element={<ItemRenting />} />
-            <Route path="/auto-sharing" element={<AutoSharing />} />
-            <Route path="/game-partner" element={<GamePartnerFinder />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/auth" element={<Auth />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/roommate-finder" element={<RoommateFinder />} />
+                <Route path="/common-cart" element={<CommonCart />} />
+                <Route path="/item-renting" element={<ItemRenting />} />
+                <Route path="/auto-sharing" element={<AutoSharing />} />
+                <Route path="/game-partner" element={<GamePartnerFinder />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

@@ -1,13 +1,33 @@
 
 import React from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X } from "lucide-react";
+import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "./AuthProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const Layout = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const navItems = [
     { name: "Dashboard", path: "/", icon: <Home className="w-5 h-5 mr-2" /> },
@@ -46,15 +66,29 @@ const Layout = () => {
             ))}
           </nav>
           
-          {/* Mobile Menu Button */}
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+          <div className="flex items-center space-x-2">
+            {user && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSignOut}
+                className="hidden md:flex items-center"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            )}
+            
+            {/* Mobile Menu Button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
         
         {/* Mobile Navigation */}
@@ -77,6 +111,17 @@ const Layout = () => {
                   {item.name}
                 </Link>
               ))}
+              {user && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="w-full flex items-center justify-center"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              )}
             </div>
           </div>
         )}
