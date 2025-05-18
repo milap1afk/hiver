@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Layout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { user, signOut } = useAuth();
   const { toast } = useToast();
@@ -20,6 +21,7 @@ const Layout = () => {
         title: "Logged out",
         description: "You have been successfully logged out.",
       });
+      navigate("/auth");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -27,6 +29,11 @@ const Layout = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMobileMenuOpen(false);
   };
 
   const navItems = [
@@ -44,18 +51,21 @@ const Layout = () => {
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2 font-bold text-2xl text-primary">
+          <div 
+            onClick={() => handleNavigation("/")} 
+            className="flex items-center space-x-2 font-bold text-2xl text-primary cursor-pointer"
+          >
             HIVE
-          </Link>
+          </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
-              <Link 
+              <div
                 key={item.path}
-                to={item.path}
+                onClick={() => handleNavigation(item.path)}
                 className={cn(
-                  "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer",
                   location.pathname === item.path 
                     ? "bg-primary text-primary-foreground" 
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -63,7 +73,7 @@ const Layout = () => {
               >
                 {item.icon}
                 {item.name}
-              </Link>
+              </div>
             ))}
           </nav>
           
@@ -77,6 +87,18 @@ const Layout = () => {
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
+              </Button>
+            )}
+            
+            {/* Auth Button for non-authenticated users */}
+            {!user && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/auth")}
+                className="hidden md:flex items-center"
+              >
+                Login / Register
               </Button>
             )}
             
@@ -97,22 +119,22 @@ const Layout = () => {
           <div className="md:hidden border-t">
             <div className="container mx-auto px-4 py-3 space-y-2">
               {navItems.map((item) => (
-                <Link 
+                <div 
                   key={item.path}
-                  to={item.path}
+                  onClick={() => handleNavigation(item.path)}
                   className={cn(
-                    "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer",
                     location.pathname === item.path 
                       ? "bg-primary text-primary-foreground" 
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   )}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.icon}
                   {item.name}
-                </Link>
+                </div>
               ))}
-              {user && (
+              
+              {user ? (
                 <Button
                   variant="outline"
                   size="sm"
@@ -121,6 +143,15 @@ const Layout = () => {
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="w-full flex items-center justify-center"
+                >
+                  Login / Register
                 </Button>
               )}
             </div>
