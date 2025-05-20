@@ -4,12 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
-import { Moon, Sun } from "lucide-react";
-import { isDarkMode, toggleTheme } from "@/utils/themeUtils";
 
 const Settings = () => {
   const { user, signOut } = useAuth();
@@ -18,7 +15,6 @@ const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [darkMode, setDarkMode] = useState(isDarkMode());
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -63,7 +59,7 @@ const Settings = () => {
         .update({
           username,
           avatar_url: avatarUrl,
-          updated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(), // Convert Date object to ISO string
         })
         .eq("id", user.id);
         
@@ -101,54 +97,23 @@ const Settings = () => {
     }
   };
 
-  const handleToggleDarkMode = () => {
-    const newDarkModeState = toggleTheme();
-    setDarkMode(newDarkModeState);
-    
-    toast({
-      title: newDarkModeState ? "Dark Mode Activated" : "Light Mode Activated",
-      description: `Theme preference saved.`,
-    });
-  };
-
   return (
     <div className="container mx-auto p-4 max-w-3xl">
-      <h1 className="text-3xl font-bold mb-6 text-foreground">Settings</h1>
+      <h1 className="text-3xl font-bold mb-6">Settings</h1>
       
-      <Card className="mb-8 border-2">
-        <CardHeader className="border-b">
-          <CardTitle>Appearance</CardTitle>
-          <CardDescription>Customize your visual experience</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              {darkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-              <span className="font-medium">{darkMode ? "Dark" : "Light"} Mode</span>
-            </div>
-            <Switch 
-              checked={darkMode} 
-              onCheckedChange={handleToggleDarkMode}
-              aria-label="Toggle Dark Mode"
-              className="data-[state=checked]:bg-primary"
-            />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card className="mb-8 border-2">
-        <CardHeader className="border-b">
+      <Card className="mb-8">
+        <CardHeader>
           <CardTitle>Profile Settings</CardTitle>
           <CardDescription>Manage your profile information</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4 pt-6">
+        <CardContent className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">Email</label>
             <Input 
               id="email" 
               value={user?.email || ""} 
               disabled 
-              className="bg-muted border-2"
+              className="bg-muted"
             />
           </div>
           
@@ -159,7 +124,6 @@ const Settings = () => {
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
               disabled={loading}
-              className="border-2"
             />
           </div>
           
@@ -171,7 +135,6 @@ const Settings = () => {
               onChange={(e) => setAvatarUrl(e.target.value)} 
               disabled={loading}
               placeholder="https://example.com/avatar.jpg"
-              className="border-2"
             />
           </div>
           
@@ -180,7 +143,7 @@ const Settings = () => {
               <img 
                 src={avatarUrl} 
                 alt="Avatar preview" 
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600" 
+                className="w-24 h-24 rounded-full object-cover border-2 border-gray-200" 
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "https://via.placeholder.com/150";
@@ -189,25 +152,25 @@ const Settings = () => {
             </div>
           )}
         </CardContent>
-        <CardFooter className="border-t pt-4">
-          <Button onClick={handleUpdateProfile} disabled={loading} className="font-medium">
+        <CardFooter>
+          <Button onClick={handleUpdateProfile} disabled={loading}>
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </CardFooter>
       </Card>
       
-      <Card className="border-2">
-        <CardHeader className="border-b">
+      <Card>
+        <CardHeader>
           <CardTitle>Account</CardTitle>
           <CardDescription>Manage your account settings</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4 pt-6">
+        <CardContent className="space-y-4">
           <div className="border-t pt-4">
-            <h3 className="text-lg font-medium text-destructive mb-2">Danger Zone</h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <h3 className="text-lg font-medium text-red-600 mb-2">Danger Zone</h3>
+            <p className="text-sm text-gray-500 mb-4">
               Signing out will end your current session
             </p>
-            <Button variant="destructive" onClick={handleSignOut} className="font-medium">
+            <Button variant="destructive" onClick={handleSignOut}>
               Sign Out
             </Button>
           </div>
