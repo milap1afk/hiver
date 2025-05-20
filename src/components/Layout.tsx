@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut, Settings, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "./AuthProvider";
 import { useToast } from "@/hooks/use-toast";
+import { isDarkMode, toggleTheme, initializeTheme } from "@/utils/themeUtils";
 
 const Layout = () => {
   const location = useLocation();
@@ -13,39 +14,17 @@ const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { user, signOut } = useAuth();
   const { toast } = useToast();
-  const [darkMode, setDarkMode] = useState(
-    document.body.classList.contains("dark-mode") || 
-    localStorage.getItem("hive-theme") === "dark"
-  );
+  const [darkMode, setDarkMode] = useState(isDarkMode());
 
-  // Sync dark mode state with body class and localStorage
+  // Initialize theme on component mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem("hive-theme");
-    if (savedTheme === "light") {
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-      setDarkMode(false);
-    } else {
-      document.body.classList.remove("light-mode");
-      document.body.classList.add("dark-mode");
-      setDarkMode(true);
-    }
+    initializeTheme();
+    setDarkMode(isDarkMode());
   }, []);
 
-  const toggleDarkMode = () => {
-    if (darkMode) {
-      // Switch to light mode
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-      localStorage.setItem("hive-theme", "light");
-      setDarkMode(false);
-    } else {
-      // Switch to dark mode
-      document.body.classList.remove("light-mode");
-      document.body.classList.add("dark-mode");
-      localStorage.setItem("hive-theme", "dark");
-      setDarkMode(true);
-    }
+  const handleToggleDarkMode = () => {
+    const newMode = toggleTheme();
+    setDarkMode(newMode);
   };
 
   const handleSignOut = async () => {
@@ -83,7 +62,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-10">
+      <header className="bg-white dark:bg-gray-800 border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div 
             onClick={() => handleNavigation("/")} 
@@ -116,7 +95,7 @@ const Layout = () => {
             <Button
               variant="outline"
               size="icon"
-              onClick={toggleDarkMode}
+              onClick={handleToggleDarkMode}
               className="rounded-full"
               aria-label="Toggle Dark Mode"
             >
@@ -161,7 +140,7 @@ const Layout = () => {
         
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t">
+          <div className="md:hidden border-t dark:border-gray-700">
             <div className="container mx-auto px-4 py-3 space-y-2">
               {navItems.map((item) => (
                 <div 
@@ -181,7 +160,7 @@ const Layout = () => {
               
               {/* Dark Mode Toggle in Mobile Menu */}
               <div 
-                onClick={toggleDarkMode}
+                onClick={handleToggleDarkMode}
                 className="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
               >
                 <div className="flex items-center">
@@ -221,7 +200,7 @@ const Layout = () => {
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t py-6 dark:bg-gray-800 dark:border-gray-700">
+      <footer className="bg-white dark:bg-gray-800 border-t py-6 dark:border-gray-700">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>© {new Date().getFullYear()} HIVE Community Hub. All rights reserved.</p>
         </div>

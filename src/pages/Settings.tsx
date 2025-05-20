@@ -18,8 +18,7 @@ const Settings = () => {
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [darkMode, setDarkMode] = useState(
-    document.body.classList.contains("dark-mode") || 
-    localStorage.getItem("hive-theme") === "dark"
+    document.documentElement.classList.contains("dark")
   );
 
   useEffect(() => {
@@ -104,18 +103,16 @@ const Settings = () => {
   };
 
   const toggleDarkMode = () => {
-    if (darkMode) {
-      // Switch to light mode
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-      localStorage.setItem("hive-theme", "light");
-      setDarkMode(false);
-    } else {
-      // Switch to dark mode
-      document.body.classList.remove("light-mode");
-      document.body.classList.add("dark-mode");
+    // Update dark mode state
+    setDarkMode(!darkMode);
+    
+    // Update document class for Tailwind dark mode
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
       localStorage.setItem("hive-theme", "dark");
-      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem("hive-theme", "light");
     }
     
     toast({
