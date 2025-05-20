@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
+import { Moon, Sun } from "lucide-react";
 
 const Settings = () => {
   const { user, signOut } = useAuth();
@@ -15,6 +17,10 @@ const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [darkMode, setDarkMode] = useState(
+    document.body.classList.contains("dark-mode") || 
+    localStorage.getItem("hive-theme") === "dark"
+  );
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -59,7 +65,7 @@ const Settings = () => {
         .update({
           username,
           avatar_url: avatarUrl,
-          updated_at: new Date().toISOString(), // Convert Date object to ISO string
+          updated_at: new Date().toISOString(),
         })
         .eq("id", user.id);
         
@@ -97,9 +103,50 @@ const Settings = () => {
     }
   };
 
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      // Switch to light mode
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+      localStorage.setItem("hive-theme", "light");
+      setDarkMode(false);
+    } else {
+      // Switch to dark mode
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("hive-theme", "dark");
+      setDarkMode(true);
+    }
+    
+    toast({
+      title: darkMode ? "Light Mode Activated" : "Dark Mode Activated",
+      description: `Theme preference saved.`,
+    });
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
+      
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Appearance</CardTitle>
+          <CardDescription>Customize your visual experience</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              {darkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              <span className="font-medium">{darkMode ? "Dark" : "Light"} Mode</span>
+            </div>
+            <Switch 
+              checked={darkMode} 
+              onCheckedChange={toggleDarkMode}
+              aria-label="Toggle Dark Mode"
+            />
+          </div>
+        </CardContent>
+      </Card>
       
       <Card className="mb-8">
         <CardHeader>

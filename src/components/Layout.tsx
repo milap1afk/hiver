@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut, Settings } from "lucide-react";
+import { Home, ShoppingCart, Package, Car, Gamepad2, Menu, X, LogOut, Settings, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "./AuthProvider";
@@ -13,6 +13,40 @@ const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const [darkMode, setDarkMode] = useState(
+    document.body.classList.contains("dark-mode") || 
+    localStorage.getItem("hive-theme") === "dark"
+  );
+
+  // Sync dark mode state with body class and localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("hive-theme");
+    if (savedTheme === "light") {
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+      setDarkMode(false);
+    } else {
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+      setDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      // Switch to light mode
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+      localStorage.setItem("hive-theme", "light");
+      setDarkMode(false);
+    } else {
+      // Switch to dark mode
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("hive-theme", "dark");
+      setDarkMode(true);
+    }
+  };
 
   const handleSignOut = async () => {
     try {
@@ -78,6 +112,17 @@ const Layout = () => {
           </nav>
           
           <div className="flex items-center space-x-2">
+            {/* Dark Mode Toggle */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleDarkMode}
+              className="rounded-full"
+              aria-label="Toggle Dark Mode"
+            >
+              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+            
             {user && (
               <Button
                 variant="outline"
@@ -134,6 +179,17 @@ const Layout = () => {
                 </div>
               ))}
               
+              {/* Dark Mode Toggle in Mobile Menu */}
+              <div 
+                onClick={toggleDarkMode}
+                className="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+              >
+                <div className="flex items-center">
+                  {darkMode ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </div>
+              </div>
+              
               {user ? (
                 <Button
                   variant="outline"
@@ -160,13 +216,13 @@ const Layout = () => {
       </header>
       
       {/* Main Content */}
-      <main className="flex-grow bg-gray-50">
+      <main className="flex-grow bg-gray-50 dark:bg-gray-900">
         <Outlet />
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t py-6">
-        <div className="container mx-auto px-4 text-center text-sm text-gray-500">
+      <footer className="bg-white border-t py-6 dark:bg-gray-800 dark:border-gray-700">
+        <div className="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>© {new Date().getFullYear()} HIVE Community Hub. All rights reserved.</p>
         </div>
       </footer>
