@@ -224,31 +224,40 @@ document.addEventListener('DOMContentLoaded', () => {
         'weekend-evening': 'Weekend Evening'
       };
       
+      const skillColors = {
+        'beginner': '#10b981',
+        'intermediate': '#3b82f6',
+        'advanced': '#f59e0b',
+        'expert': '#ef4444'
+      };
+      
       return `
         <div class="player-card">
           <div class="player-header">
             <div class="player-avatar">
-              ${player.avatar ? `<img src="${player.avatar}" alt="${player.name}">` : 
-                `<i class="fas fa-user"></i>`}
+              <img src="${player.avatar}" alt="${player.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div style="display: none; width: 100%; height: 100%; background: var(--gradient-primary); border-radius: 50%; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                ${player.name.charAt(0).toUpperCase()}
+              </div>
             </div>
             <div class="player-info">
               <h3>${player.name}</h3>
-              <span class="player-skill">${capitalize(player.skillLevel)} Player</span>
+              <span class="player-skill" style="background-color: ${skillColors[player.skillLevel]}; color: white;">
+                ${player.skillLevel.charAt(0).toUpperCase() + player.skillLevel.slice(1)}
+              </span>
             </div>
           </div>
           
           <div class="player-content">
             <div class="player-games">
-              <h4>Games</h4>
+              <h4>Favorite Games</h4>
               <div class="game-tags">
-                ${player.games.map((game, index) => `
-                  <span class="game-tag">${game}</span>
-                `).join('')}
+                ${player.games.map(game => `<span class="game-tag">${game}</span>`).join('')}
               </div>
             </div>
             
             <div class="player-availability">
-              <h4>Availability</h4>
+              <h4>Available</h4>
               <div class="availability-tags">
                 ${player.availability.map(avail => `
                   <span class="availability-tag">
@@ -263,61 +272,60 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           
           <div class="player-footer">
-            <button class="btn btn-sm btn-outline">Message</button>
-            <button class="btn btn-sm btn-primary connect-btn" data-id="${player.id}">Connect</button>
+            <button class="btn btn-primary" onclick="connectWithPlayer('${player.id}')">
+              <i class="fas fa-user-plus"></i> Connect
+            </button>
+            <button class="btn btn-secondary" onclick="messagePlayer('${player.id}')">
+              <i class="fas fa-envelope"></i> Message
+            </button>
           </div>
         </div>
       `;
     }).join('');
-    
-    // Add event listeners to connect buttons
-    document.querySelectorAll('.connect-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const playerId = btn.getAttribute('data-id');
-        const player = players.find(p => p.id === playerId);
-        showToast(`Connection request sent to ${player.name}!`, 'success');
-      });
-    });
   }
   
-  // Populate profile form with existing data
-  function populateProfileForm(profile) {
-    document.getElementById('profile-name').value = profile.name;
-    document.getElementById('profile-games').value = profile.games.join(', ');
-    document.getElementById('profile-skill').value = profile.skillLevel;
-    document.getElementById('profile-bio').value = profile.bio;
-    
-    // Check the appropriate availability checkboxes
-    document.querySelectorAll('input[name="profile-availability"]').forEach(checkbox => {
-      checkbox.checked = profile.availability.includes(checkbox.value);
-    });
-    
-    toggleProfileFormBtn.textContent = 'Edit Profile';
-  }
-  
-  // Helper function to guess game type based on name
-  function guessGameType(gameName) {
-    const gameLower = gameName.toLowerCase();
-    
-    if (gameLower.includes('chess') || gameLower.includes('monopoly') || 
-        gameLower.includes('catan') || gameLower.includes('scrabble')) {
-      return 'board';
-    } else if (gameLower.includes('magic') || gameLower.includes('poker') || 
-              gameLower.includes('uno')) {
-      return 'card';
-    } else if (gameLower.includes('dungeons') || gameLower.includes('d&d') || 
-              gameLower.includes('pathfinder')) {
-      return 'tabletop';
-    } else if (gameLower.includes('football') || gameLower.includes('frisbee') || 
-              gameLower.includes('soccer')) {
-      return 'outdoor';
-    } else {
-      return 'video'; // Default to video games
+  // Global functions for player interactions
+  window.connectWithPlayer = function(playerId) {
+    const player = players.find(p => p.id === playerId);
+    if (player) {
+      showToast(`Connection request sent to ${player.name}!`, 'success');
     }
+  };
+  
+  window.messagePlayer = function(playerId) {
+    const player = players.find(p => p.id === playerId);
+    if (player) {
+      showToast(`Opening chat with ${player.name}...`, 'info');
+    }
+  };
+  
+  // Helper function to populate profile form
+  function populateProfileForm(profile) {
+    document.getElementById('profile-name').value = profile.name || '';
+    document.getElementById('profile-games').value = profile.games ? profile.games.join(', ') : '';
+    document.getElementById('profile-skill').value = profile.skillLevel || 'beginner';
+    document.getElementById('profile-bio').value = profile.bio || '';
+    
+    // Set availability checkboxes
+    document.querySelectorAll('input[name="profile-availability"]').forEach(checkbox => {
+      checkbox.checked = profile.availability ? profile.availability.includes(checkbox.value) : false;
+    });
   }
   
-  // Helper function to capitalize first letter
-  function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  // Helper function to guess game type
+  function guessGameType(game) {
+    const videoGames = ['fifa', 'call of duty', 'fortnite', 'mario kart', 'minecraft', 'among us'];
+    const boardGames = ['chess', 'monopoly', 'scrabble', 'settlers of catan', 'pandemic'];
+    const cardGames = ['poker', 'magic: the gathering'];
+    const tabletopGames = ['dungeons & dragons', 'd&d'];
+    
+    const gameLower = game.toLowerCase();
+    
+    if (videoGames.some(vg => gameLower.includes(vg))) return 'video';
+    if (boardGames.some(bg => gameLower.includes(bg))) return 'board';
+    if (cardGames.some(cg => gameLower.includes(cg))) return 'card';
+    if (tabletopGames.some(tg => gameLower.includes(tg))) return 'tabletop';
+    
+    return 'other';
   }
 });
