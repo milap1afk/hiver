@@ -27,7 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if user is authenticated for protected pages
     if (pageName !== 'home' && pageName !== 'auth' && !currentUser) {
       navigateToPage('auth');
-      showToast('Please log in to access this feature', 'info');
+      // Fix: Use toast utility function instead of direct showToast call
+      if (window.showToast) {
+        window.showToast('Please log in to access this feature', 'info');
+      } else {
+        console.warn('Toast notification system not available');
+      }
       return;
     }
 
