@@ -1,6 +1,11 @@
 
 // Main application logic
 document.addEventListener('DOMContentLoaded', function() {
+  // Load storage utilities
+  const storageScript = document.createElement('script');
+  storageScript.src = 'js/storage.js';
+  document.head.appendChild(storageScript);
+  
   // Initialize settings page
   initializeSettings();
   
